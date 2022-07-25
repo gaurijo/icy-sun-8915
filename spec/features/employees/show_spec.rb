@@ -109,7 +109,8 @@ RSpec.describe 'Employee show page' do
 
       click_button("Submit")
 
-      expect(current_path).to eq("/ticket_employees/new")
+      # expect(current_path).to eq("/ticket_employees/new")
+      expect(current_path).to eq("/employees/#{employee_1.id}")
    end
 end
 
