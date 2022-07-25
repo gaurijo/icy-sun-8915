@@ -8,3 +8,10 @@
 <%end %>
 
 Oldest age: <%=Ticket.oldest%>
+
+<%= form_with url: '/ticket_employees/new', method: :post do |form| %>
+<%= form.label :id %>
+<%= form.text_field :id %>
+<%= form.hidden_field :employee_id, value: @employee.id %>
+<%= form.submit 'Submit' %>
+<% end %>
