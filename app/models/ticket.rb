@@ -5,4 +5,8 @@ class Ticket < ApplicationRecord
    def self.order_by_age
       order(:age)
    end
+
+   def self.oldest 
+      maximum(:age)
+   end
 end

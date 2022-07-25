@@ -5,3 +5,5 @@
 <p> <% @employee.tickets.each do |ticket| %> </p>
 <p>age: <%= ticket.age %></p>
 <%end %>
+
+Oldest age: <%=Ticket.oldest%>
