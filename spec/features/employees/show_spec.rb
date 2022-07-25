@@ -62,4 +62,39 @@ RSpec.describe 'Employee show page' do
 
       expect(page).to have_content("Oldest age: 3")
    end
+
+   it 'only has that employee tickets and no others' do 
+      department_1 = Department.create!(name: "Sales", floor: 2)
+      department_2 = Department.create!(name: "Inventory", floor: 1)
+      department_3 = Department.create!(name: "Returns", floor: 3)
+
+      employee_1 = department_1.employees.create!(name: "Susan", level: 5)
+      employee_2 = department_2.employees.create!(name: "Rohan", level: 2)
+      employee_3 = department_3.employees.create!(name: "Lola", level: 4)
+
+      ticket_1 = employee_1.tickets.create!(subject: "IT", age: 2)
+      ticket_2 = employee_1.tickets.create!(subject: "Customer complaint", age: 3)
+      ticket_3 = employee_1.tickets.create!(subject: "Help", age: 1)
+
+      ticket_4 = employee_2.tickets.create!(subject: "Data", age: 4)
+
+      # save_and_open_page 
+
+      visit "/employees/#{employee_1.id}" 
+
+      expect(page).to have_content("IT")
+      expect(page).to_not have_content("Data")
+   end
 end
+
+# Story 3
+
+# As a user,
+# When I visit the employee show page,
+# I do not see any tickets listed that are not assigned to the employee
+# and I see a form to add a ticket to this emplyee*
+# When I fill in the form with the id of a ticket that already exists in the database
+# and I click submit
+# Then I am redirected back to that employees show page
+# and i see the ticket's subject now listed
+# (you do not have to test for sad path, for example if the id does not match an existing ticket
