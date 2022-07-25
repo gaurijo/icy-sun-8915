@@ -1,6 +1,11 @@
 <h1>Departments Index</h1>
 
 <% @departments.each do |department| %>
+   <div id="department-<%= department.id %>">
    <%= department.name %>
    <%= department.floor %>
+   <% department.employees.each do |employee| %>
+      <%= employee.name %>
+   <% end %>
+   </div>
 <% end %>
