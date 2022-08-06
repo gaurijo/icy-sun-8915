@@ -6,8 +6,8 @@ RSpec.describe Ticket, type: :model do
    end
 
    describe 'model methods' do 
-      describe 'order youngest to oldest' do 
-         it 'orders tickets youngest to oldest' do 
+      describe 'order oldest to youngest' do 
+         it 'orders tickets oldest to youngest' do 
             department_1 = Department.create!(name: "Sales", floor: 2)
             department_2 = Department.create!(name: "Inventory", floor: 1)
             department_3 = Department.create!(name: "Returns", floor: 3)
@@ -20,7 +20,7 @@ RSpec.describe Ticket, type: :model do
             ticket_2 = employee_1.tickets.create!(subject: "Customer complaint", age: 3)
             ticket_3 = employee_1.tickets.create!(subject: "Help", age: 1)
 
-            expect(Ticket.order_by_age).to eq([ticket_3, ticket_1, ticket_2])
+            expect(Ticket.order_by_age).to eq([ticket_2, ticket_1, ticket_3])
          end
       end
 

@@ -16,15 +16,25 @@ RSpec.describe 'Department index page' do
 
       visit '/departments'
 
-      expect(page).to have_content("Sales")
-      expect(page).to have_content("Inventory")
-      expect(page).to have_content("Returns")
+      within "#department-#{department_1.id}" do
+         expect(page).to have_content("Sales")
+         expect(page).to have_content("2")
+         expect(page).to_not have_content("Returns")
+      end
 
-      expect(page).to have_content("2")
-      expect(page).to have_content("1")
-      expect(page).to have_content("3")
-      expect(page).to_not have_content("4")
+      within "#department-#{department_2.id}" do 
+         expect(page).to have_content("Inventory")
+         expect(page).to have_content("1")
+         expect(page).to_not have_content("Returns")
+      end
+
+      within "#department-#{department_3.id}" do 
+         expect(page).to have_content("Returns")
+         expect(page).to have_content("3")
+         expect(page).to_not have_content("Sales")
+      end
    end
+
 
    it 'has names of departments employees underneath department' do 
       department_1 = Department.create!(name: "Sales", floor: 2)
@@ -39,14 +49,17 @@ RSpec.describe 'Department index page' do
 
       within "#department-#{department_1.id}" do 
          expect(page).to have_content("Susan")
+         expect(page).to_not have_content("Rohan")
       end
 
       within "#department-#{department_2.id}" do 
          expect(page).to have_content("Rohan")
+         expect(page).to_not have_content("Susan")
       end
 
       within "#department-#{department_3.id}" do 
          expect(page).to have_content("Lola")
+         expect(page).to_not have_content("Susan")
       end
    end
 end

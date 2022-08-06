@@ -28,7 +28,7 @@ RSpec.describe 'Employee show page' do
       expect(page).to_not have_content("Returns")
    end
 
-   it 'has a list of all employees tickets from youngest to oldest' do 
+   it 'has a list of all employees tickets from oldest to youngest' do 
       department_1 = Department.create!(name: "Sales", floor: 2)
       department_2 = Department.create!(name: "Inventory", floor: 1)
       department_3 = Department.create!(name: "Returns", floor: 3)
@@ -39,10 +39,22 @@ RSpec.describe 'Employee show page' do
 
       ticket_1 = employee_1.tickets.create!(subject: "IT", age: 2)
       ticket_2 = employee_1.tickets.create!(subject: "Customer complaint", age: 3)
+      ticket_3 = employee_1.tickets.create!(subject: "printer problems", age: 1)
 
       visit "/employees/#{employee_1.id}" 
+##how do I render these within divs on same show page? class div?? 
 
-      expect(page).to have_content("age: 2")
+      # within "#ticket-0" do 
+         expect(page).to have_content("Customer complaint")
+      # end
+
+      # within "ticket-1" do 
+         expect(page).to have_content("IT")
+      # end
+
+      # within "ticket-2" do 
+         expect(page).to have_content("printer problem")
+      # end
    end
 
    it 'has oldest ticket of employee' do 
@@ -95,22 +107,23 @@ RSpec.describe 'Employee show page' do
       employee_2 = department_2.employees.create!(name: "Rohan", level: 2)
       employee_3 = department_3.employees.create!(name: "Lola", level: 4)
 
-      ticket_1 = employee_1.tickets.create!(subject: "IT", age: 2)
-      ticket_2 = employee_1.tickets.create!(subject: "Customer complaint", age: 3)
-      ticket_3 = employee_1.tickets.create!(subject: "Help", age: 1)
+      ticket_1 = Ticket.create!(subject: "IT", age: 2)
+      ticket_2 = Ticket.create!(subject: "Customer complaint", age: 3)
+      ticket_3 = Ticket.create!(subject: "Help", age: 1)
+      ticket_4 = Ticket.create!(subject: "Data", age: 4)
 
-      ticket_employee_1 = TicketEmployee.create!(ticket_id: ticket_1.id, employee_id: employee_1.id)
-      ticket_employee_2 = TicketEmployee.create!(ticket_id: ticket_2.id, employee_id: employee_2.id)
+      ticket_emp1 = TicketEmployee.create!(ticket_id: ticket_1.id, employee_id: employee_1.id)
+      ticket_emp2 = TicketEmployee.create!(ticket_id: ticket_2.id, employee_id: employee_1.id)
+      ticket_emp3 = TicketEmployee.create!(ticket_id: ticket_3.id, employee_id: employee_1.id)
 
       visit "/employees/#{employee_1.id}"
       # save_and_open_page
 
-      fill_in("id", with: ticket_1.id) 
+      fill_in("id", with: "#{ticket_4.id}") 
 
       click_button("Submit")
-
-      # expect(current_path).to eq("/ticket_employees/new")
       expect(current_path).to eq("/employees/#{employee_1.id}")
+      expect(page).to have_content("Data")
    end
 end
 

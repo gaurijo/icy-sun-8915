@@ -2,14 +2,14 @@
 
 <p>Name: <%= @employee.name %></p>
 <p><%= @employee.department.name %></p>
-<p> <% @employee.tickets.each do |ticket| %> </p>
+<p> <% @employee.tickets.order_by_age.each do |ticket| %> </p>
 <p>age: <%= ticket.age %></p>
 <p> <%= ticket.subject %></p>
 <%end %>
 
 Oldest age: <%=Ticket.oldest%>
 
-<%= form_with url: '/ticket_employees/new', method: :post do |form| %>
+<%= form_with url: "/ticket_employees/#{@employee.id}", method: :post do |form| %>
 <%= form.label :id %>
 <%= form.text_field :id %>
 <%= form.hidden_field :employee_id, value: @employee.id %>
